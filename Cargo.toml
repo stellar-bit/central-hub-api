@@ -1,0 +1,8 @@
+[package]
+name = "central-hub-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.11.24", features = ["cookies", "json"] }
+serde = { version = "1.0.197", features = ["derive"] }

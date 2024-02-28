@@ -1,5 +1,5 @@
 [package]
-name = "central-hub-api"
+name = "stellar-bit-central-hub-api"
 version = "0.1.0"
 edition = "2021"
 

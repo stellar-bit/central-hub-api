@@ -75,14 +75,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02f341c093d19155a6e41631ce5971aac4e9a868262212153124c15fa22d1cdc"
 
 [[package]]
-name = "central-hub-api"
-version = "0.1.0"
-dependencies = [
- "reqwest",
- "serde",
-]
-
-[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -765,6 +757,14 @@ checksum = "05ffd9c0a93b7543e062e759284fcf5f5e3b098501104bfbdde4d404db792871"
 dependencies = [
  "libc",
  "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "stellar-bit-central-hub-api"
+version = "0.1.0"
+dependencies = [
+ "reqwest",
+ "serde",
 ]
 
 [[package]]

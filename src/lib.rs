@@ -28,14 +28,18 @@ pub struct UserData {
 }
 
 impl HubAPI {
-    pub async fn connect(username: String, password: String) -> Self {
+    pub async fn connect(username: String, password: String) -> Result<Self, reqwest::Error> {
         let client = ClientBuilder::new().cookie_store(true).build().unwrap();
 
-        Self {
+        let res = Self {
             client,
             username,
             password
-        }
+        };
+
+        res.login().await?;
+
+        Ok(res)
     }
     pub fn get(&self, rel_path: &str) -> RequestBuilder {
         self.client.get(Url::from_str(HUB_WEB_ADDR).unwrap().join(rel_path).unwrap())
@@ -43,15 +47,16 @@ impl HubAPI {
     pub fn post(&self, rel_path: &str) -> RequestBuilder {
         self.client.post(Url::from_str(HUB_WEB_ADDR).unwrap().join(rel_path).unwrap())
     }
-    pub async fn login(&self) {
+    pub async fn login(&self) -> Result<(), reqwest::Error> {
         let params = [("username", &self.username), ("password", &self.password)];
 
-        self.post("/api/login").form(&params).send().await.unwrap().error_for_status().unwrap();
+        self.post("/api/login").form(&params).send().await?.error_for_status()?;
+        Ok(())
     }
     pub async fn send(&self, req: RequestBuilder) -> Response {
         let resp = req.try_clone().unwrap().send().await.unwrap();
         if resp.status() == StatusCode::UNAUTHORIZED {
-            self.login().await; 
+            self.login().await.unwrap(); 
             let resp = req.send().await.unwrap();
             resp
         }

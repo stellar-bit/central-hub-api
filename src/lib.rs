@@ -92,4 +92,15 @@ impl HubAPI {
         let req = self.get(&format!("/api/servers/access/{server_id}"));
         self.send(req).await.error_for_status().unwrap().json::<ServerAccess>().await.unwrap()
     }
+    pub async fn verify_token(&self, server_id: i64, user_id: i64, token: String) -> bool {
+        let req = self.get(&format!("/api/servers/verify/{server_id}/{user_id}/{token}"));
+        let resp = self.send(req).await;
+        if resp.status() == StatusCode::PRECONDITION_FAILED {
+            return false;
+        }
+        let status = resp.status();
+        resp.error_for_status().unwrap();
+        assert_eq!(status, StatusCode::OK);
+        true
+    }
 }

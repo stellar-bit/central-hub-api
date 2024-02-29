@@ -17,7 +17,7 @@ pub struct ServerDetails {
 /// Ensures that each request is appropriately authorized with the supplied credentials.
 pub struct HubAPI {
     client: reqwest::Client,
-    username: String,
+    pub username: String,
     password: String,
 }
 

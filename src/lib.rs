@@ -27,6 +27,13 @@ pub struct UserData {
     pub id: i64,
 }
 
+#[derive(Deserialize, Debug)]
+pub struct ServerAccess {
+    server_id: i64,
+    server_addr: String,
+    access_token: String
+}
+
 impl HubAPI {
     pub async fn connect(username: String, password: String) -> Result<Self, reqwest::Error> {
         let client = ClientBuilder::new().cookie_store(true).build().unwrap();
@@ -80,5 +87,9 @@ impl HubAPI {
     pub async fn server_keep_alive(&self, server_id: i64, server_addr: &str) {
         let req = self.post(&format!("/api/servers/keep_alive/{server_id}/{server_addr}"));
         self.send(req).await.error_for_status().unwrap();
+    }
+    pub async fn access_server(&self, server_id: i64) -> ServerAccess {
+        let req = self.post(&format!("/api/servers/access/{server_id}"));
+        self.send(req).await.error_for_status().unwrap().json::<ServerAccess>().await.unwrap()
     }
 }

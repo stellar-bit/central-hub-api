@@ -19,7 +19,6 @@ pub struct HubAPI {
     client: reqwest::Client,
     username: String,
     password: String,
-    pub user_id: i64
 }
 
 #[derive(Deserialize, Debug)]
@@ -39,16 +38,13 @@ impl HubAPI {
     pub async fn connect(username: String, password: String) -> Result<Self, reqwest::Error> {
         let client = ClientBuilder::new().cookie_store(true).build().unwrap();
 
-        let mut res = Self {
+        let res = Self {
             client,
             username: username.clone(),
             password,
-            user_id: 0
         };
 
         res.login().await?;
-        let user_data = res.user_data_username(&username).await;
-        res.user_id = user_data.id;
 
         Ok(res)
     }
@@ -75,6 +71,9 @@ impl HubAPI {
             resp
         }
 
+    }
+    pub async fn my_user_data(&self) -> UserData {
+        self.user_data_username(&self.username.clone()).await
     }
     pub async fn servers(&self) -> Vec<ServerDetails> {
         let req = self.get("/api/servers"); 

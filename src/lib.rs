@@ -89,7 +89,7 @@ impl HubAPI {
         self.send(req).await.error_for_status().unwrap();
     }
     pub async fn access_server(&self, server_id: i64) -> ServerAccess {
-        let req = self.post(&format!("/api/servers/access/{server_id}"));
+        let req = self.get(&format!("/api/servers/access/{server_id}"));
         self.send(req).await.error_for_status().unwrap().json::<ServerAccess>().await.unwrap()
     }
 }

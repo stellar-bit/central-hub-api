@@ -29,9 +29,9 @@ pub struct UserData {
 
 #[derive(Deserialize, Debug)]
 pub struct ServerAccess {
-    server_id: i64,
-    server_addr: String,
-    access_token: String
+    pub server_id: i64,
+    pub server_addr: String,
+    pub access_token: String
 }
 
 impl HubAPI {

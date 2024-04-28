@@ -3,7 +3,7 @@ use std::str::FromStr;
 use reqwest::{ClientBuilder, Request, RequestBuilder, Response, StatusCode, Url};
 use serde::Deserialize;
 
-const HUB_WEB_ADDR: &str = "http://localhost:3000/";
+const HUB_WEB_ADDR: &str = "https://stellar-bit.com/";
 
 #[derive(Deserialize, Debug)]
 pub struct ServerDetails {
